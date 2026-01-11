@@ -29,8 +29,9 @@ app.use(errorHandler)
 // Export for Cloud Functions
 http('api', app)
 
-// Local development
-if (!config.isProduction) {
+// Local development (skip when running tests)
+const isTest = process.env.NODE_ENV === 'test'
+if (!config.isProduction && !isTest) {
   app.listen(config.port, () => {
     console.log(`Server running at http://localhost:${config.port}`)
   })

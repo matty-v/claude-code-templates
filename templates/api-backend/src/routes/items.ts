@@ -12,6 +12,10 @@ interface Item {
   updatedAt?: string
 }
 
+interface IdParams {
+  id: string
+}
+
 // GET /items - List all items
 router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
@@ -23,7 +27,7 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
 })
 
 // GET /items/:id - Get item by ID
-router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/:id', async (req: Request<IdParams>, res: Response, next: NextFunction) => {
   try {
     const item = await getById<Item>(COLLECTION, req.params.id)
     if (!item) {
@@ -52,7 +56,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 })
 
 // PUT /items/:id - Update item
-router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id', async (req: Request<IdParams>, res: Response, next: NextFunction) => {
   try {
     const existing = await getById<Item>(COLLECTION, req.params.id)
     if (!existing) {
@@ -68,7 +72,7 @@ router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
 })
 
 // DELETE /items/:id - Delete item
-router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/:id', async (req: Request<IdParams>, res: Response, next: NextFunction) => {
   try {
     const existing = await getById<Item>(COLLECTION, req.params.id)
     if (!existing) {
